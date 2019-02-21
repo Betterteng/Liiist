@@ -32,7 +32,14 @@
                             <outlet property="delegate" destination="u56-6X-aaW" id="r8w-6M-atc"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Liiist" id="LtW-C9-hUS"/>
+                    <navigationItem key="navigationItem" title="Liiist" id="LtW-C9-hUS">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="N8Z-NU-CKA">
+                            <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="addButtonPressed:" destination="u56-6X-aaW" id="POP-5t-VIt"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rfa-tb-7Am" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
