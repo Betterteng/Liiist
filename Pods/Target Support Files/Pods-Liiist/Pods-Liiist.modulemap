@@ -1,0 +1,6 @@
+framework module Pods_Liiist {
+  umbrella header "Pods-Liiist-umbrella.h"
+
+  export *
+  module * { export * }
+}

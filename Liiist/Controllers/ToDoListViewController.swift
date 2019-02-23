@@ -14,7 +14,7 @@ class ToDoListViewController: UITableViewController {
     var itemArray = [Item]()
     var selectedCategory: Category? {
         didSet {
-            loadItems()
+            //loadItems()
         }
     }
     
@@ -50,7 +50,7 @@ class ToDoListViewController: UITableViewController {
         
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
-        saveItems()
+        //saveItems()
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -58,89 +58,89 @@ class ToDoListViewController: UITableViewController {
     // MARK: - Add new items...
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
-        var localAlertTextField = UITextField()
-        
-        let alert = UIAlertController(title: "Add new item ", message: "", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Add", style: .default) { (action) in
-            
-            // What will happen when user click the Add button
-            let newItem = Item(context: self.context)
-            newItem.title = localAlertTextField.text!
-            newItem.done = false
-            newItem.parentCategory = self.selectedCategory
-            
-            self.itemArray.append(newItem)
-            
-            self.saveItems()
-        }
-        
-        alert.addTextField { (alertTextField) in
-            alertTextField.placeholder = "Create new item..."
-            localAlertTextField = alertTextField
-        }
-        
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
+//        var localAlertTextField = UITextField()
+//
+//        let alert = UIAlertController(title: "Add new item ", message: "", preferredStyle: .alert)
+//        let action = UIAlertAction(title: "Add", style: .default) { (action) in
+//
+//            // What will happen when user click the Add button
+//            let newItem = Item(context: self.context)
+//            newItem.title = localAlertTextField.text!
+//            newItem.done = false
+//            newItem.parentCategory = self.selectedCategory
+//
+//            self.itemArray.append(newItem)
+//
+//            self.saveItems()
+//        }
+//
+//        alert.addTextField { (alertTextField) in
+//            alertTextField.placeholder = "Create new item..."
+//            localAlertTextField = alertTextField
+//        }
+//
+//        alert.addAction(action)
+//        present(alert, animated: true, completion: nil)
     }
     
     // MARK: - Data manipulation methods
-    func saveItems() -> Void {
-        
-        do {
-            try context.save()
-        } catch {
-            print("Error saving data: \(error)")
-        }
-        
-        self.tableView.reloadData()
-    }
-    
-    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) -> Void {
-        
-        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
-        
-        if let additionalPredicate = predicate {
-            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, additionalPredicate])
-        } else {
-            request.predicate = categoryPredicate
-        }
-        
-        do {
-            itemArray = try context.fetch(request)
-        } catch {
-            print("Error data fetching from context: \(error)")
-        }
-        
-        tableView.reloadData()
-    }
-    
+//    func saveItems() -> Void {
+//
+//        do {
+//            try context.save()
+//        } catch {
+//            print("Error saving data: \(error)")
+//        }
+//
+//        self.tableView.reloadData()
+//    }
+//
+//    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) -> Void {
+//
+//        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+//
+//        if let additionalPredicate = predicate {
+//            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, additionalPredicate])
+//        } else {
+//            request.predicate = categoryPredicate
+//        }
+//
+//        do {
+//            itemArray = try context.fetch(request)
+//        } catch {
+//            print("Error data fetching from context: \(error)")
+//        }
+//
+//        tableView.reloadData()
+//    }
+
 }
 
 // MARK: - Search bar methods
-extension ToDoListViewController: UISearchBarDelegate {
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-
-        let request: NSFetchRequest<Item> = Item.fetchRequest()
-
-        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
-        
-        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-
-        loadItems(with: request, predicate: predicate)
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        if searchBar.text?.count == 0 {
-            
-            loadItems()
-            
-            DispatchQueue.main.async {
-                searchBar.resignFirstResponder()
-            }
-        }
-    }
-    
-}
+//extension ToDoListViewController: UISearchBarDelegate {
+//
+//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+//
+//        let request: NSFetchRequest<Item> = Item.fetchRequest()
+//
+//        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+//
+//        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+//
+//        loadItems(with: request, predicate: predicate)
+//    }
+//
+//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//
+//        if searchBar.text?.count == 0 {
+//
+//            loadItems()
+//
+//            DispatchQueue.main.async {
+//                searchBar.resignFirstResponder()
+//            }
+//        }
+//    }
+//
+//}
 
