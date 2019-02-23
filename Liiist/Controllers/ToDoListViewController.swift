@@ -24,7 +24,7 @@ class ToDoListViewController: UITableViewController {
         
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        loadItems()
     }
     
     // MARK: - TableView data source methods
@@ -37,7 +37,11 @@ class ToDoListViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
         
-        cell.textLabel?.text = itemArray[indexPath.row].title
+        let item = itemArray[indexPath.row]
+        
+        cell.textLabel?.text = item.title
+        
+        cell.accessoryType = item.done ? .checkmark : .none
         
         return cell
     }
@@ -45,11 +49,9 @@ class ToDoListViewController: UITableViewController {
     // MARK: - TableView delegate method
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        } else {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        }
+        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+        
+        saveItems()
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -93,17 +95,44 @@ class ToDoListViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) -> Void {
+        
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+            print("Error data fetching from context: \(error)")
+        }
+        
+        tableView.reloadData()
+    }
+    
 }
 
+// MARK: - Search bar methods
 extension ToDoListViewController: UISearchBarDelegate {
     
-//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-//
-//        let request = NSFetchRequest<Item> = Item.fetchRequest()
-//
-//        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
-//
-//
-//    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+
+        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+
+        loadItems(with: request)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        if searchBar.text?.count == 0 {
+            
+            loadItems()
+            
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
+    }
+    
 }
 
