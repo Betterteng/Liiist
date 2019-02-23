@@ -7,18 +7,23 @@
 //
 
 import UIKit
+import CoreData
 
 class ToDoListViewController: UITableViewController {
 
-    var itemArray = ["1", "2", "3"]
-    let defaults = UserDefaults.standard
+    var itemArray = [Item]()
+    var selectedCategory: Category? {
+        didSet {
+            //loadItems()
+        }
+    }
+    
+    let content = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        if let items = defaults.array(forKey: "ToDoListArray") as? [String] {
-            itemArray = items
-        }
+        
     }
     
     // MARK - TableView data source methods
@@ -28,7 +33,7 @@ class ToDoListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
-        cell.textLabel?.text = itemArray[indexPath.row]
+        //cell.textLabel?.text = itemArray[indexPath.row]
         return cell
     }
 
@@ -46,12 +51,12 @@ class ToDoListViewController: UITableViewController {
     // MARK - Add new items...
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         var localAlertTextField = UITextField()
-        let alert = UIAlertController(title: "Add new item", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Add new item ", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add", style: .default) {
             (action) in
             // What will happen when user click the Add button
-            self.itemArray.append(localAlertTextField.text!)
-            self.defaults.set(self.itemArray, forKey: "ToDoListArray")
+            //self.itemArray.append(localAlertTextField.text!)
+            //self.defaults.set(self.itemArray, forKey: "ToDoListArray")
             self.tableView.reloadData()
         }
         alert.addTextField { (alertTextField) in
@@ -61,5 +66,18 @@ class ToDoListViewController: UITableViewController {
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
+    
+}
+
+extension ToDoListViewController: UISearchBarDelegate {
+    
+//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+//
+//        let request = NSFetchRequest<Item> = Item.fetchRequest()
+//
+//        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+//
+//
+//    }
 }
 

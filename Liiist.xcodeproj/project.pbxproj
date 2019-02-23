@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		40A19A7E2220F73900F54DF2 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 40A19A7C2220F73900F54DF2 /* DataModel.xcdatamodeld */; };
 		40CF03D9221D6FF900FFFFBA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CF03D8221D6FF900FFFFBA /* AppDelegate.swift */; };
 		40CF03DB221D6FF900FFFFBA /* ToDoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CF03DA221D6FF900FFFFBA /* ToDoListViewController.swift */; };
 		40CF03DE221D6FF900FFFFBA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40CF03DC221D6FF900FFFFBA /* Main.storyboard */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		40A19A7D2220F73900F54DF2 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		40CF03D5221D6FF900FFFFBA /* Liiist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Liiist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40CF03D8221D6FF900FFFFBA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		40CF03DA221D6FF900FFFFBA /* ToDoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListViewController.swift; sourceTree = "<group>"; };
@@ -35,6 +37,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		40A19A7F2220F74500F54DF2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				40A19A7C2220F73900F54DF2 /* DataModel.xcdatamodeld */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		40A19A802220F75400F54DF2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				40CF03DC221D6FF900FFFFBA /* Main.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		40A19A812220F77C00F54DF2 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				40CF03DA221D6FF900FFFFBA /* ToDoListViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		40A19A822220F78E00F54DF2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				40CF03E1221D6FF900FFFFBA /* LaunchScreen.storyboard */,
+				40CF03DF221D6FF900FFFFBA /* Assets.xcassets */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		40CF03CC221D6FF900FFFFBA = {
 			isa = PBXGroup;
 			children = (
@@ -55,10 +90,10 @@
 			isa = PBXGroup;
 			children = (
 				40CF03D8221D6FF900FFFFBA /* AppDelegate.swift */,
-				40CF03DA221D6FF900FFFFBA /* ToDoListViewController.swift */,
-				40CF03DC221D6FF900FFFFBA /* Main.storyboard */,
-				40CF03DF221D6FF900FFFFBA /* Assets.xcassets */,
-				40CF03E1221D6FF900FFFFBA /* LaunchScreen.storyboard */,
+				40A19A812220F77C00F54DF2 /* Controllers */,
+				40A19A822220F78E00F54DF2 /* Supporting Files */,
+				40A19A802220F75400F54DF2 /* Views */,
+				40A19A7F2220F74500F54DF2 /* Model */,
 				40CF03E4221D6FF900FFFFBA /* Info.plist */,
 			);
 			path = Liiist;
@@ -135,6 +170,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40A19A7E2220F73900F54DF2 /* DataModel.xcdatamodeld in Sources */,
 				40CF03DB221D6FF900FFFFBA /* ToDoListViewController.swift in Sources */,
 				40CF03D9221D6FF900FFFFBA /* AppDelegate.swift in Sources */,
 			);
@@ -336,6 +372,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		40A19A7C2220F73900F54DF2 /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				40A19A7D2220F73900F54DF2 /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 40A19A7D2220F73900F54DF2 /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 40CF03CD221D6FF900FFFFBA /* Project object */;
 }
