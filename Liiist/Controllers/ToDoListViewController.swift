@@ -8,19 +8,45 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
 class ToDoListViewController: SwipeTableViewController {
 
     let realm = try! Realm()
     var toDoItems: Results<Item>?
-    var selectedCategory: Category? {
-        didSet {
-            loadItems()
-        }
-    }
+    var selectedCategory: Category? { didSet {loadItems()}}
+    @IBOutlet weak var searchBar: UISearchBar!
     
     override func viewDidLoad() {
+       
         super.viewDidLoad()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        guard let hexColour = selectedCategory?.colour else {fatalError("There's no value for the selectedCategory's colour property...")}
+        
+        updateNavigationBar(withHexCode: hexColour)
+        
+        title = selectedCategory?.name
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        updateNavigationBar(withHexCode: "1D9BF6")
+    }
+    
+    // MARK: Update navigation bar
+    func updateNavigationBar(withHexCode colourHexCod: String) -> Void {
+        
+        guard let navi = navigationController?.navigationBar else {fatalError("Navigation controller does not exist...")}
+        guard let navBarColour = UIColor(hexString: colourHexCod) else {fatalError("Cannot get the colour...")}
+        
+        searchBar.barTintColor = navBarColour
+        
+        navi.barTintColor = navBarColour
+        navi.tintColor = ContrastColorOf(navBarColour, returnFlat: true)
+        navi.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: ContrastColorOf(navBarColour, returnFlat: true)]
     }
     
     // MARK: - TableView data source methods
@@ -36,8 +62,13 @@ class ToDoListViewController: SwipeTableViewController {
         if let item = toDoItems?[indexPath.row] {
             cell.textLabel?.text = item.title
             cell.accessoryType = item.done ? .checkmark : .none
+            if let colour = UIColor(hexString: selectedCategory!.colour)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(toDoItems!.count) / CGFloat(2)) {
+                cell.backgroundColor = colour
+                cell.textLabel?.textColor = ContrastColorOf(colour, returnFlat: true)
+            }
         } else {
             cell.textLabel?.text = "No items added yet..."
+            cell.backgroundColor = UIColor(hexString: "76D6FF")
         }
 
         return cell

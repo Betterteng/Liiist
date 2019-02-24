@@ -65,8 +65,15 @@ class CategoryViewController: SwipeTableViewController {
         
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
-        cell.textLabel?.text = categories?[indexPath.row].name ?? "No categories added yet..."
-        cell.backgroundColor = UIColor.randomFlat
+        if let category = categories?[indexPath.row] {
+            cell.textLabel?.text = category.name
+            
+            guard let categoryColour = UIColor(hexString: category.colour) else {fatalError()}
+            cell.backgroundColor = categoryColour
+            cell.textLabel?.textColor = ContrastColorOf(categoryColour, returnFlat: true)
+        }
+        
+        
         
         return cell
     }
@@ -97,6 +104,7 @@ class CategoryViewController: SwipeTableViewController {
             // What will happen when user click the Add button
             let newCategory = Category()
             newCategory.name = localAlertTextField.text!
+            newCategory.colour = UIColor.randomFlat.hexValue()
             
             self.save(category: newCategory)
         }
