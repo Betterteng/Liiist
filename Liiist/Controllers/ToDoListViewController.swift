@@ -68,7 +68,7 @@ class ToDoListViewController: SwipeTableViewController {
             }
         } else {
             cell.textLabel?.text = "No items added yet..."
-            cell.backgroundColor = UIColor(hexString: "76D6FF")
+            cell.backgroundColor = UIColor(hexString: "1D9BF6")
         }
 
         return cell
