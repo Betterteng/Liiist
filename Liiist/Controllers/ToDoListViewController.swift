@@ -9,8 +9,9 @@
 import UIKit
 import RealmSwift
 
-class ToDoListViewController: UITableViewController {
+class ToDoListViewController: SwipeTableViewController {
 
+    let realm = try! Realm()
     var toDoItems: Results<Item>?
     var selectedCategory: Category? {
         didSet {
@@ -18,12 +19,8 @@ class ToDoListViewController: UITableViewController {
         }
     }
     
-    let realm = try! Realm()
-    
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
     }
     
     // MARK: - TableView data source methods
@@ -34,11 +31,10 @@ class ToDoListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
         if let item = toDoItems?[indexPath.row] {
             cell.textLabel?.text = item.title
-            
             cell.accessoryType = item.done ? .checkmark : .none
         } else {
             cell.textLabel?.text = "No items added yet..."
@@ -106,6 +102,20 @@ class ToDoListViewController: UITableViewController {
 
         tableView.reloadData()
     }
+    
+    // MARK: - Delete data using swipe gesture
+    override func updataModel(at indexPath: IndexPath) {    // 注意：这里的indexPath的值是superclass传过来的（editActionsForRowAt这个method）
+        
+        if let itemForDeletion = self.toDoItems?[indexPath.row] {
+            do {
+                try self.realm.write {
+                    self.realm.delete(itemForDeletion)
+                }
+            } catch {
+                print("Error deleting a category: \(error)")
+            }
+        }
+    }
 
 }
 
@@ -113,6 +123,8 @@ class ToDoListViewController: UITableViewController {
 extension ToDoListViewController: UISearchBarDelegate {
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        loadItems()
         
         toDoItems = toDoItems?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)
         
